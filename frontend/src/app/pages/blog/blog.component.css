@@ -1,0 +1,60 @@
+/* blog-detail.component.css */
+
+/* Title & Author */
+.blog-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.author-pic {
+  width: 40px;
+  height: 40px;
+}
+
+/* Content */
+.blog-content {
+  line-height: 1.7;
+}
+.blog-content .lead {
+  font-size: 1.125rem;
+  color: #444;
+}
+
+/* Tags */
+.tag-badge {
+  background-color: #f1f3f5;
+  color: #495057;
+  font-size: 0.875rem;
+  padding: 0.5em 0.75em;
+  border-radius: 1rem;
+}
+
+/* Comments */
+.comment-card {
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+}
+.comment-pic {
+  width: 32px;
+  height: 32px;
+}
+
+/* Utility tweaks */
+.card-header {
+  padding-bottom: 0;
+}
+.heart-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  color: #999; /* default gray */
+}
+
+.heart-icon:hover {
+  transform: scale(1.2);
+}
+
+.heart-icon.liked {
+  color: red;
+  transform: scale(1.3);
+}

@@ -1,0 +1,10 @@
+.card {
+  border-radius: 1rem;
+}
+.btn-close {
+  font-size: 0.6rem;
+  vertical-align: middle;
+}
+textarea.form-control {
+  resize: vertical;
+}

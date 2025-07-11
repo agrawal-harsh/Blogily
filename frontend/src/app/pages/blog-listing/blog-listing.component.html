@@ -1,0 +1,43 @@
+<div class="position-absolute" style="margin: 7% 10% 0 0;" >
+    <h3>All articles</h3>
+    <div class="navbar">
+        <form class="d-flex " role="search" [formGroup]="form" (change)="searchByTitle()">
+            <input
+              type="text"
+              class="form-control me-2"
+              placeholder="Search by title"
+              aria-label="Search"
+              formControlName="search"
+              #searchTerm
+            />
+            <div *ngIf="f['search'].errors" class="invalid-feedback">
+                <div *ngIf="f['search'].errors['required']">Search term cannot be empty.</div>
+            </div>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <ul class="d-flex gap-3 " style="width: 40rem; ">
+
+        @if(!showTagList){
+            @for (category of categories; track $index) {
+                @if ($index<3) {
+                <li #li class=" btn btn-outline-secondary" (click)="addTag(category,li)">{{category.name}}</li>
+                }
+            }}
+            <button class="btn btn-dark" (click)="tagListToggle()">{{showTagList?"see less...":'see more...'}}</button>
+        </ul>
+    </div>
+    @if(showTagList){
+    <ul class="d-flex gap-3 flex-wrap" style="width: 40rem; ">
+        @for (category of categories; track $index) {
+            <li  #li class=" btn btn-outline-secondary" (click)="addTag(category,li)">{{category.name}}</li>
+        }
+    </ul>}
+
+    <div class="d-flex flex-wrap gap-3">
+
+    @for (item of blogs; track $index) {
+        <app-blog-card [blog] = item></app-blog-card>
+    }
+    </div>
+</div>
+

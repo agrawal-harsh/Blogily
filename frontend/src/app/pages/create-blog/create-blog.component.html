@@ -1,0 +1,63 @@
+<div class="container mt-5">
+  <div class="card shadow p-4">
+    <h3 class="mb-4">Create New Blog</h3>
+    <form [formGroup]="blogForm" (ngSubmit)="onSubmit()">
+      <!-- Title -->
+      <div class="mb-3">
+        <label for="title" class="form-label">Blog Title</label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          class="form-control"
+          [ngClass]="{'is-invalid': blogForm.get('title')?.invalid && blogForm.get('title')?.touched}"
+        />
+        <div class="invalid-feedback">Title is required (min 5 characters)</div>
+      </div>
+
+      <!-- Content -->
+      <div class="mb-3">
+        <label for="content" class="form-label">Content</label>
+        <textarea
+          id="content"
+          formControlName="content"
+          class="form-control"
+          rows="6"
+          [ngClass]="{'is-invalid': blogForm.get('content')?.invalid && blogForm.get('content')?.touched}"
+        ></textarea>
+        <div class="invalid-feedback">Content is required (min 20 characters)</div>
+      </div>
+
+      <!-- Status -->
+      <div class="mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select id="status" class="form-select" formControlName="status">
+          <option value="draft">Draft</option>
+          <option value="published">Published</option>
+        </select>
+      </div>
+
+      <!-- Tags -->
+      <div class="mb-3">
+        <label class="form-label">Tags</label>
+        <div class="d-flex mb-2">
+          <input #tagInput type="text" class="form-control me-2" placeholder="Enter tag" (keyup.enter)="addTag(tagInput.value); tagInput.value=''" />
+          <button type="button" class="btn btn-outline-primary" (click)="addTag(tagInput.value); tagInput.value=''">
+            Add
+          </button>
+        </div>
+        <div *ngIf="tags.length > 0">
+          <span *ngFor="let tag of tags.controls; let i = index" class="badge bg-secondary me-2 mb-2">
+            {{ tag.value }}
+            <button type="button" class="btn-close btn-close-white btn-sm ms-2" aria-label="Remove" (click)="removeTag(i)"></button>
+          </span>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button class="btn btn-success" type="submit" [disabled]="submitting || blogForm.invalid">
+        {{ submitting ? 'Publishing...' : 'Create Blog' }}
+      </button>
+    </form>
+  </div>
+</div>

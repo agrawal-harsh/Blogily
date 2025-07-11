@@ -1,0 +1,54 @@
+<!-- blog-detail.component.html -->
+<div class="container mt-5">
+  @if(!blog){
+    <h2>Loading...</h2>
+  }
+@if(blog){  <div class="card shadow-sm border-0">
+    <!-- Header -->
+    <div class="card-header bg-white border-0 pb-0">
+      <h1 class="blog-title">{{ blog.title }}</h1>
+      <div class="d-flex align-items-center text-muted mb-3">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+          alt="Author"
+          class="rounded-circle me-2 author-pic"
+          (click)="viewProfile()"
+           style="cursor: pointer;"
+        />
+        <div  style="cursor: pointer;" (click)="viewProfile()">
+          <small>By <strong>{{ blog.author[0].full_name || 'Author Name' }}</strong></small><br/>
+          <small>{{ blog.createdAt | date:'longDate' }} • {{ blog.views_count }} views</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body py-4 blog-content">
+      <p class="lead">{{ blog.content }}</p>
+    <div>
+      <i
+        class="fa-heart heart-icon"
+        [class.fas]="liked"
+        [class.far]="!liked"
+        [class.liked]="liked"
+        (click)="likeBlog()">
+      </i>
+<span style="font-size: 1.3rem; margin-left: 0.5rem;">{{blog.like_count}}</span>
+    </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="card-body pt-0 pb-4">
+      <div>
+        <span *ngFor="let tag of blog.tags" class="badge tag-badge me-2 mb-2">
+          {{ tag.name }}
+        </span>
+      </div>
+    </div>
+
+    <hr class="my-0" />
+
+    <!-- Comments -->
+    <app-comment-section [comments]="blog.comments" (addComment)="addComment($event)"></app-comment-section>
+  </div>}
+</div>

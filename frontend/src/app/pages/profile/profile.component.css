@@ -1,0 +1,21 @@
+.profile-header {
+  background-color: #fff;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+}
+
+.bio {
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.row.text-center h5 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}

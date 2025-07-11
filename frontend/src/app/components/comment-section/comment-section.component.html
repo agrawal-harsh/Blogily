@@ -1,0 +1,44 @@
+<div class="comments-wrapper">
+  <h5 class="comments-header">Comments @if(comments[0].content){({{ comments.length }})}</h5>
+
+  <div class="add-comment mt-4 p-3 border rounded">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-2">
+        <textarea
+          formControlName="content"
+          class="form-control"
+          rows="3"
+          placeholder="Write your comment..."
+          [ngClass]="{'is-invalid': submitted && f['content'].invalid}"
+        ></textarea>
+        <div *ngIf="submitted && f['content'].errors" class="invalid-feedback">
+          <div *ngIf="f['content'].errors['required']">Comment cannot be empty.</div>
+          <div *ngIf="f['content'].errors['minlength']">
+            Must be at least 3 characters.
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-outline-primary">
+        Post Comment
+      </button>
+    </form>
+  </div>
+  @if(comments[0].content){<div *ngFor="let c of comments" class="comment-card mb-3 p-3">
+    <div class="d-flex align-items-center mb-2">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+        alt="User avatar"
+        class="avatar me-2"
+      />
+      <small class="comment-user">
+        
+        {{ c.user_id === currentUserId ? 'You' : (  c.user[0].full_name) }}
+      </small>
+      <small class="comment-time ms-auto">
+        {{ c.createdAt | date:'short' }}
+      </small>
+    </div>
+    <p class="comment-content mb-0">{{ c.content }}</p>
+  </div>
+}
+</div>

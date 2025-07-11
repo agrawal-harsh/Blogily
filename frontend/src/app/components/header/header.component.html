@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg rounded-4 shadow-sm" style="background-color: white;">
+  <div class="container-fluid">
+    <a class="navbar-brand text-primary" href="#">Blogily</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="d-flex w-75"></div>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+        <li class="nav-item">
+          <a class="nav-link active" style="cursor: pointer;" aria-current="page" (click)="goToPage('/')">Home</a>
+        </li>
+        @if (user.full_name) {
+        <li class="nav-item">
+          <a class="nav-link active" style="cursor: pointer;" aria-current="page" (click)="goToProfile()">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active text-dark" style="cursor: pointer; width: 30rem;" aria-current="page" (click)="goToPage('/blog')">Create Blog</a>
+        </li>
+        <li class="nav-item dropdown mx-5">
+          <a class="nav-link dropdown-toggle" style="cursor: pointer;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Welcome {{user.full_name}}
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item"  (click)="logout()">logout</a></li>
+          </ul>
+        </li>
+      }
+      </ul>
+      
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,43 @@
+<div class="container mt-5">
+  <!-- Profile Header -->
+  <div class="d-flex align-items-center mb-5 profile-header p-4 rounded shadow-sm bg-white">
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+      alt="Avatar"
+      class="profile-pic me-4"
+    />
+    <div>
+      <h2 class="mb-1">{{ user.full_name }}</h2>
+      <p class="text-muted mb-2">{{ user.username }}</p>
+      <p class="bio">{{ user.bio }}</p>
+      <span
+        class="badge"
+        [ngClass]="user.is_active ? 'bg-success' : 'bg-secondary'"
+      >
+        {{ user.is_active ? 'Active' : 'Inactive' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Stats (optional) -->
+  <div class="row text-center mb-5">
+    <div class="col">
+      <h5>{{ userBlogs.length }}</h5>
+      <small>Posts</small>
+    </div>
+    <div class="col">
+      <h5>
+        {{totalViews}}
+      </h5>
+      <small>Total Views</small>
+    </div>
+  </div>
+
+  <!-- User's Blog Grid -->
+  <h4 class="mb-4">My Posts</h4>
+  <div class="row g-4">
+    <div class="col-md-4" *ngFor="let blog of userBlogs">
+      <app-blog-card [blog]="blog"></app-blog-card>
+    </div>
+  </div>
+</div>
