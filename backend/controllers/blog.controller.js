@@ -33,6 +33,7 @@ const handleGetAllBlogs = asyncHandler(async(req,res)=>{
                 createdAt: { $first: '$createdAt' },
                 updatedAt: { $first: '$updatedAt' },
                 views_count:{$first:'$views_count'},
+                coverImage:{$first:'$coverImage'},
                 tags: { $addToSet:{$first: '$tag_details'}}
             }
         },{
@@ -43,7 +44,7 @@ const handleGetAllBlogs = asyncHandler(async(req,res)=>{
                 as: 'author'
             }
         },{
-            $sort:{createdAt:1}
+            $sort:{createdAt:-1}
         }
     ]);
     res.status(StatusCodes.ACCEPTED).json({message:"The request is fullfilled" , blogs})
@@ -146,7 +147,8 @@ const handleGetBlog = asyncHandler(async(req,res)=>{
                 createdAt: { $first: '$createdAt' },
                 updatedAt: { $first: '$updatedAt' },
                 tags: { $push:{$first: '$tag_details'}},
-                comments:{$push:'$comments'}
+                comments:{$push:'$comments'},
+                coverImage:{$first:'$coverImage'},
             }
         },
         {$lookup:{
@@ -177,6 +179,7 @@ const handleGetBlog = asyncHandler(async(req,res)=>{
                 updatedAt: { $first: '$updatedAt' },
                 tags: { $first: '$tags'},
                 comments:{$push:'$comments'},
+                coverImage:{$first:'$coverImage'}
             }
         },
         {

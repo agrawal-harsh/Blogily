@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
         createdAt: '2024-06-10T13:20:00.000Z',
         views_count: '980',
         tags: [{ name: 'Art & Design' }, { name: 'Technology' }],
-        thumbnailUrl: 'https://via.placeholder.com/600x400'
+        coverImage: 'https://via.placeholder.com/600x400'
       },
     ];
     const id = this.route.snapshot.params['id'];

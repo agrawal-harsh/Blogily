@@ -9,6 +9,6 @@ export interface Blog {
   status?:string;
   views_count: string;
   tags?: { name: string }[];
-  thumbnailUrl?: string;
+  coverImage?: string;
   author?:any
 }
