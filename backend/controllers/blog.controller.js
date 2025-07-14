@@ -2,6 +2,7 @@ const { StatusCodes } = require('http-status-codes');
 const {Blog,Blog_tag, Tag, User,Comment, Like} = require('../models')
 const asyncHandler = require('../services/asyncHandler');
 const { default: mongoose } = require('mongoose');
+const { uploadOnCloudinary } = require('../services/cloudinary');
 
 const handleGetAllBlogs = asyncHandler(async(req,res)=>{
     const blogs = await Blog.aggregate([
@@ -63,10 +64,15 @@ const handleCreateBlog = asyncHandler(async(req,res)=>{
     if(!title || !content){
         return res.status(StatusCodes.BAD_REQUEST).json({error:"Title and content are required fields"})
     }
-    const blog = await Blog.create({author_id,title,content,status});
+
+    const coverImagePath = req.files?.image[0]?.path;
+    console.log(coverImagePath);
+    const coverImage = await uploadOnCloudinary(coverImagePath);
+    const blog = await Blog.create({author_id,title,content,status,coverImage:coverImage?.url});
     if(tags){
         addTags(tags,blog._id);
     }
+
     res.status(StatusCodes.CREATED).json({message:"Blog is successfully created" ,blog});
 })
 

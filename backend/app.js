@@ -11,6 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
+app.use(express.urlencoded({extended:true,limit:"16kb"}))
 app.use(cors())
 app.use('/api/comments',protect, commentRouter);
 app.use('/api/blogs',protect, blogRouter);

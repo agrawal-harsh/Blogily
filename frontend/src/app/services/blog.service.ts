@@ -17,7 +17,7 @@ export class BlogService {
     )
   }
 
-  createBlog(values:Blog){
+  createBlog(values:any){
     return this.http.post<Blog>('http://localhost:4000/api/blogs/',values).pipe(
       tap(data=>console.log(data))
     )

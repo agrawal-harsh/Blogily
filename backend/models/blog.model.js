@@ -19,6 +19,9 @@ const blogSchema = mongoose.Schema({
     views_count:{
         type:Number,
         default:0
+    },coverImage:{
+        type:String,
+        default:''
     }
 },{timestamps:true})
 

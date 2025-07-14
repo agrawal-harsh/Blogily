@@ -1,11 +1,18 @@
 const { Router } = require("express");
-const {handleGetAllBlogs,handleUpdateBlog,handleDeleteBlog,handleGetBlog, handleCreateBlog} = require('../controllers/blog.controller')
+const {handleGetAllBlogs,handleUpdateBlog,handleDeleteBlog,handleGetBlog, handleCreateBlog} = require('../controllers/blog.controller');
+const {upload} = require('../middlewares/multer.middleware')
 const router = Router();
 
 
 router.route('/')
 .get(handleGetAllBlogs) //Get all the blogs
-.post(handleCreateBlog) //create a new blog
+.post(
+    upload.fields([
+        {
+            name:"image",
+            maxCount:1
+        }
+    ]),handleCreateBlog) //create a new blog
 
 router.route('/:id')
 .get(handleGetBlog) //get a perticular blog of user
