@@ -19,7 +19,7 @@ const handleRegisterUser = asyncHandler(async(req,res)=>{
         username,email,password_hash,full_name,bio,profile_picture
     })
     const token = getToken(user);
-    res.status(StatusCodes.CREATED).json({message:"User successfully created",token});
+    res.status(StatusCodes.CREATED).json({message:"User successfully created",token,user:{...user._doc,password_hash:null}});
 })
 
 const handleLoginUser = asyncHandler(async(req,res)=>{

@@ -1,5 +1,5 @@
-import {v2 as cloudinary} from 'cloudinary';
-import fs from 'fs';
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
 
 // Configuration
 cloudinary.config({ 
@@ -10,7 +10,9 @@ cloudinary.config({
 
 const uploadOnCloudinary = async (localFilePath) => {
     try {
-        if(!localFilePath)return null;
+        if(!localFilePath){
+            console.log("this is an error :- no file path found");
+            return null;}
         //upload file on cloudinary
         const response = await cloudinary.uploader.upload(localFilePath,{
             resourse_type:"auto"
@@ -24,4 +26,4 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 }
 
-export {uploadOnCloudinary};
+module.exports = { uploadOnCloudinary };
