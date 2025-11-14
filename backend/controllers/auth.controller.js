@@ -7,7 +7,6 @@ const { default: mongoose } = require('mongoose');
 const saltRounds = 9;
 
 const handleRegisterUser = asyncHandler(async(req,res)=>{
-    // console.log(req.body)
     if(!req.body.username||!req.body.email||!req.body.password||!req.body.full_name){
         return res.status(StatusCodes.BAD_REQUEST).json({error:"Please gave all the required fields"})
     }
@@ -39,7 +38,6 @@ const handleLoginUser = asyncHandler(async(req,res)=>{
     if(result){
         const token = getToken(user);
         user.password_hash = undefined; // Remove password hash from user object
-        console.log(user);
         return res.status(StatusCodes.ACCEPTED).json({message:"Logged in successfully",token,user});
     } else {
         return res.status(StatusCodes.FAILED_DEPENDENCY).json({error:"Password does not match"});
@@ -47,7 +45,6 @@ const handleLoginUser = asyncHandler(async(req,res)=>{
 });
 const handleGetUserData = asyncHandler(async(req,res)=>{
     const id = req.params.id;
-    console.log(id);
     const user = await User.aggregate([
         {
             $match:{_id:new mongoose.Types.ObjectId(id)}

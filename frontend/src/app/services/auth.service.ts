@@ -14,7 +14,6 @@ export class AuthService {
   }
   
   register(value:any){
-    console.log(value);
     let user = value;
     return this.http.post<any>('http://localhost:4000/api/auth/register',user)
   }

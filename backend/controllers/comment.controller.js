@@ -7,7 +7,6 @@ const { default: mongoose } = require('mongoose');
 
 const handleGetAllComments = asyncHandler(async(req,res)=>{
     const id = req.params.id;
-    console.log(id);
 
     if(!id){
         res.status(StatusCodes.BAD_REQUEST).json({error:'Blog id is required to get the comments'});
@@ -16,7 +15,7 @@ const handleGetAllComments = asyncHandler(async(req,res)=>{
     const comments = await  Comment.aggregate([
         {
         $match:{'blog_id':new mongoose.Types.ObjectId(id)}
-    }
+        }
         ,{
             $lookup:{
                 from:'users',
@@ -76,7 +75,6 @@ const handleAddComment = asyncHandler(async(req,res)=>{
         user_id,
         content
     })    
-    console.log(comment)
     res.status(StatusCodes.CREATED).json({message:"The comment is added to the blog",comment:{content:comment.content,user_id:comment.user_id,createdAt:comment.createdAt,user:[req.user]}});
 }
 )

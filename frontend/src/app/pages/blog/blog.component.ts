@@ -22,7 +22,6 @@ export class BlogComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
     this.blogService.getBlogById(id).subscribe(data=>{
-      console.log(data);
       this.blog = data.blog;
       this.liked = data.blog.isLiked;
     })
@@ -37,7 +36,6 @@ export class BlogComponent implements OnInit {
     let newComment;
     this.commentService.addComment(content,id).subscribe(data => {
       newComment = data.comment;
-      console.log(newComment);
       this.blog.comments = [...this.blog.comments,newComment];
     });
   }

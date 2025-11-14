@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.loginForm.value).subscribe(data=>{
       localStorage.setItem('user',JSON.stringify(data.user));
       localStorage.setItem('token',data.token);
-      console.log('Login data', this.loginForm.value);
       this.router.navigate(['/'])
     });
   }

@@ -27,14 +27,12 @@ export class CommentSectionComponent implements OnInit,OnChanges {
 
   constructor(private fb: FormBuilder) {}
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.comments)
   }
 
    public ngOnInit() {
     this.form = this.fb.group({
       content: ['', [Validators.required, Validators.minLength(3)]]
     });
-    console.log(this.comments)
   }
 
    public get f() { return this.form.controls; }

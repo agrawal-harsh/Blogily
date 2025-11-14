@@ -103,7 +103,6 @@ export class BlogListingComponent implements OnInit{
   }
   searchByTitle(){
     const title = this.form.value.search;
-    console.log(title)
     this.blogs = this.blogsCopy.filter(blog => blog.title.toLowerCase().includes(title.toLowerCase()));
   }
   addTag(category:any,li:HTMLLIElement){
@@ -116,7 +115,6 @@ export class BlogListingComponent implements OnInit{
     li.classList.add('btn-secondary');
     li.classList.remove('btn-outline-secondary');
     }
-    console.log(this.searchTags)
     const tags = this.searchTags.map(tags => tags.name);
     this.tagService.searchByTag(tags).subscribe(response => {
       this.blogs = response.blogs;

@@ -12,14 +12,12 @@ export class BlogService {
 
   getAllBlogs(){
     return this.http.get<any>('http://localhost:4000/api/blogs/').pipe(
-      tap(data=>console.log(data)),
       shareReplay(1)
     )
   }
 
   createBlog(values:any){
     return this.http.post<Blog>('http://localhost:4000/api/blogs/',values).pipe(
-      tap(data=>console.log(data))
     )
   }
 

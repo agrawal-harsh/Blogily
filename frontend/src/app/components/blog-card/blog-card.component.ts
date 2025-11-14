@@ -18,6 +18,5 @@ export class BlogCardComponent {
   @Input() len:number = 80;
   public  goToBlog(){
     this.router.navigate(['/blog/',this.blog._id])
-    console.log(this.blog)
   }
 }

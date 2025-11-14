@@ -59,7 +59,6 @@ const addTags = (tags,blog_id)=>{
 
 const handleCreateBlog = asyncHandler(async(req,res)=>{
     const email = req.user.email;
-    console.log(email);
     const author_id = (await User.findOne({email}))._id;
     const {title,content,status,tags} = req.body;
     if(!title || !content){
@@ -67,7 +66,6 @@ const handleCreateBlog = asyncHandler(async(req,res)=>{
     }
 
     const coverImagePath = req.files?.image[0]?.path;
-    console.log(coverImagePath);
     const coverImage = await uploadOnCloudinary(coverImagePath);
     const blog = await Blog.create({author_id,title,content,status,coverImage:coverImage?.url});
     if(tags){
@@ -84,7 +82,6 @@ const handleUpdateBlog = asyncHandler(async(req,res)=>{
         return res.status(StatusCodes.BAD_REQUEST).json({error:"Id is required to get the blog"})
     }
     const blog = Blog.find({_id:id});
-    console.log(blog);
     const {title,content,tags} = req.body;
     if(!blog){
         return res.status(StatusCodes.BAD_REQUEST).json({error:"User does not exist"});
@@ -94,7 +91,6 @@ const handleUpdateBlog = asyncHandler(async(req,res)=>{
     }
     const newBlog = await Blog.findOneAndUpdate({_id:id},{title,content},{runValidation:true,new:true});
     await Blog_tag.deleteMany({blog_id:id});
-    console.log(newBlog);
     addTags(tags,newBlog._id);
     res.status(StatusCodes.ACCEPTED).json({message:"The update request is fullfilled",blog:newBlog});
 })
@@ -105,7 +101,6 @@ const handleDeleteBlog = asyncHandler(async(req,res)=>{
     if(!id || !blog){
         return res.status(StatusCodes.BAD_REQUEST).json({error:"A valid blog id is required to perform given action"});
     }
-    console.log(blog.author_id,req.user)
     if(blog.author_id != req.user._id){
         return res.status(StatusCodes.UNAUTHORIZED).json({error:"You are not authorized to perform the action"});
     }
@@ -116,7 +111,6 @@ const handleDeleteBlog = asyncHandler(async(req,res)=>{
 
 const handleGetBlog = asyncHandler(async(req,res)=>{
     const id = req.params.id;
-    console.log(id);
     const blog = await Blog.aggregate([
         {$match:{_id:new mongoose.Types.ObjectId(id)}},
         {$lookup:{
@@ -199,13 +193,10 @@ const handleGetBlog = asyncHandler(async(req,res)=>{
     }
     const like_count = await Like.find({blog_id:id});
     blog[0].like_count = like_count.length;
-    console.log(blog);
     if(!blog[0]){
         return res.status(StatusCodes.NOT_FOUND).json({error:"The blog you are looking for does not exist"});
     }
-    // console.log(blog[0].views_count)
     await Blog.findOneAndUpdate({_id:id},{views_count:Number(blog[0].views_count)+1})
-    // console.log(id,blog)
     if(!id || !blog){
         return res.status(StatusCodes.BAD_REQUEST).json({error:"Require a valid blog id"});
     }
