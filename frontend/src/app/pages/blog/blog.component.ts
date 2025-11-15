@@ -27,20 +27,30 @@ export class BlogComponent implements OnInit {
     })
   }
   viewProfile(){
-
     this.router.navigate(['/profile/',this.blog.author_id])
   }
 
   addComment(content:string){
     const id = this.route.snapshot.params['id'];
+    if (!localStorage.getItem('token')) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
     let newComment;
     this.commentService.addComment(content,id).subscribe(data => {
       newComment = data.comment;
       this.blog.comments = [...this.blog.comments,newComment];
     });
   }
+
   likeBlog(){
     const id = this.route.snapshot.params['id'];
+    if (!localStorage.getItem('token')) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
     this.likeService.likeBlog(id).subscribe(
    {
     next:()=>{

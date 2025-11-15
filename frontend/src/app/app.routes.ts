@@ -5,7 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { CreateBlogComponent } from './pages/create-blog/create-blog.component';
-import { authGuard } from './services/auth.guard';
+import { AuthGuard } from './services/auth.guard';
 
 export const routes: Routes = [
     {
@@ -16,14 +16,13 @@ export const routes: Routes = [
         component:BlogComponent
     },{
         path:'blog',
-        canActivate: [authGuard],
+        canActivate: [AuthGuard],
         component:CreateBlogComponent
     },{
         path:'auth/login',
         component:LoginComponent
     },{
         path:'profile/:id',
-        canActivate: [authGuard],
         component:ProfileComponent
     },{
         path:'auth/register',
