@@ -2,7 +2,6 @@ const express = require('express');
 const connect = require('./connectdb');
 const dotenv = require('dotenv');
 const cors = require('cors')
-const protect = require('./middlewares/auth.middleware');
 dotenv.config();
 // const populate = require('./services/populate');
 const {commentRouter, blogRouter, likeRouter, uploadRouter,tagRouter,userRouter,authRouter} = require('./routes');
@@ -13,9 +12,9 @@ const PORT = process.env.PORT || 4000;
 app.use(express.json());
 app.use(express.urlencoded({extended:true,limit:"16kb"}))
 app.use(cors())
-app.use('/api/comments',protect, commentRouter);
-app.use('/api/blogs',protect, blogRouter);
-app.use('/api/likes',protect, likeRouter);
+app.use('/api/comments', commentRouter);
+app.use('/api/blogs', blogRouter);
+app.use('/api/likes', likeRouter);
 app.use('/api/tags',tagRouter);
 app.use('/api/auth',authRouter);
 app.use('/api/user',userRouter);
