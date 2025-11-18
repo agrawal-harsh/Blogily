@@ -14,10 +14,8 @@ export class BlogService {
     this.baseUrl = this.config.apiBaseUrl;
   }
 
-  getAllBlogs(){
-    return this.http.get<any>(`${this.baseUrl}/api/blogs/`).pipe(
-      shareReplay(1)
-    )
+  getAllBlogs(page: number, limit: number){
+    return this.http.get<any>(`${this.baseUrl}/api/blogs?page=${page}&limit=${limit}`)
   }
 
   createBlog(values:any){

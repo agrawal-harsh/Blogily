@@ -5,29 +5,32 @@ import { TagService } from '../../services/tag.service';
 import { Blog } from '../../interfaces/blog.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-blog-listing',
   standalone: true,
-  imports: [BlogCardComponent,ReactiveFormsModule,CommonModule],
+  imports: [BlogCardComponent, ReactiveFormsModule, CommonModule, InfiniteScrollModule],
   templateUrl: './blog-listing.component.html',
   styleUrl: './blog-listing.component.css'
 })
-export class BlogListingComponent implements OnInit{
-  constructor(private blogService:BlogService,private tagService:TagService,private fb: FormBuilder){}
+export class BlogListingComponent implements OnInit {
+
+  page = 1;
+  limit = 10;
+  loading = false;
+  finished = false;
+  constructor(private blogService: BlogService, private tagService: TagService, private fb: FormBuilder) { }
   ngOnInit(): void {
     this.form = this.fb.group({
       search: ['']
     });
-    this.blogService.getAllBlogs().subscribe(res=>{
-      this.blogs = res.blogs;
-      this.blogsCopy = res.blogs;
-    })
-    this.tagService.getAllTags().subscribe(tags=>{
+    this.loadBlogs();
+    this.tagService.getAllTags().subscribe(tags => {
       this.categories = tags.tags;
     })
   }
-   blogs:Blog[] = [
+  blogs: Blog[] = [
     {
       "_id": "607f1f77bcf86cd799439031",
       "author_id": "507f1f77bcf86cd799439011",
@@ -82,38 +85,51 @@ export class BlogListingComponent implements OnInit{
       "views_count": "980",
       "createdAt": "2024-06-10T13:20:00Z",
     },];
-    blogsCopy:Blog[] = this.blogs;
+  blogsCopy: Blog[] = this.blogs;
 
-    public form!: FormGroup;
+  public form!: FormGroup;
 
-    searchTags:any[] =[];
-    
-  
+  searchTags: any[] = [];
+
+
   public get f() { return this.form.controls; }
-  categories:any = ["Technology","Fashion","Web Development"]
+  categories: any = ["Technology", "Fashion", "Web Development"]
   showTagList = false;
-  tagListToggle(){
-    this.showTagList = !this.showTagList;
-    if(this.showTagList){
-      this.searchTags = []
-      this.blogService.getAllBlogs().subscribe(res=>{
-        this.blogs = res.blogs;
-      }) 
-    }
+
+  
+  
+  loadBlogs() {
+    if (this.loading) return;
+    this.loading = true;
+
+    this.blogService.getAllBlogs(this.page, this.limit).subscribe((res: any) => {
+      if(res.blogs.length === 0){
+        this.finished = true;
+        this.loading = false;
+        return;
+      }
+      this.blogs = [...this.blogs,...res.blogs];
+      this.blogsCopy = this.blogs;
+      this.page++;
+      this.loading = false;
+    });
   }
-  searchByTitle(){
+  tagListToggle() {
+    this.showTagList = !this.showTagList;
+  }
+  searchByTitle() {
     const title = this.form.value.search;
     this.blogs = this.blogsCopy.filter(blog => blog.title.toLowerCase().includes(title.toLowerCase()));
   }
-  addTag(category:any,li:HTMLLIElement){
-    if(li.classList.contains('btn-secondary')){
-    this.searchTags = this.searchTags.filter(tag => tag._id !== category._id);
-    li.classList.remove('btn-secondary');
-    li.classList.add('btn-outline-secondary');
-    }else{
-    this.searchTags.push(category);
-    li.classList.add('btn-secondary');
-    li.classList.remove('btn-outline-secondary');
+  addTag(category: any, li: HTMLLIElement) {
+    if (li.classList.contains('btn-secondary')) {
+      this.searchTags = this.searchTags.filter(tag => tag._id !== category._id);
+      li.classList.remove('btn-secondary');
+      li.classList.add('btn-outline-secondary');
+    } else {
+      this.searchTags.push(category);
+      li.classList.add('btn-secondary');
+      li.classList.remove('btn-outline-secondary');
     }
     const tags = this.searchTags.map(tags => tags.name);
     this.tagService.searchByTag(tags).subscribe(response => {
@@ -121,4 +137,8 @@ export class BlogListingComponent implements OnInit{
       this.blogsCopy = response.blogs;
     })
   }
+  
+trackById(index: number, item: any) {
+  return item.id ?? index;
+}
 }

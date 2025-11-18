@@ -12,3 +12,9 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.feed-container {
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+  position: relative; 
+  padding:1 rem;
+}

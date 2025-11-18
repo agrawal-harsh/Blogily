@@ -5,6 +5,11 @@ const { default: mongoose } = require('mongoose');
 const { uploadOnCloudinary } = require('../services/cloudinary');
 
 const handleGetAllBlogs = asyncHandler(async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
     const blogs = await Blog.aggregate([
         {
             $lookup: {
@@ -45,9 +50,13 @@ const handleGetAllBlogs = asyncHandler(async (req, res) => {
             }
         }, {
             $sort: { createdAt: -1 }
+        }, {
+            $skip: skip
+        }, {
+            $limit: limit
         }
     ]);
-    res.status(StatusCodes.ACCEPTED).json({ message: "The request is fullfilled", blogs })
+    res.status(StatusCodes.ACCEPTED).json({ message: "The request is fullfilled", blogs, page, limit });
 })
 
 const addTags = (tags, blog_id) => {
