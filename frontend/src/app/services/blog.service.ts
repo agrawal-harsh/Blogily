@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { shareReplay, tap } from 'rxjs';
+import { shareReplay } from 'rxjs';
 import { Blog } from '../interfaces/blog.interface';
 import { ConfigService } from '../config.service';
 
@@ -21,6 +21,12 @@ export class BlogService {
   createBlog(values:any){
     return this.http.post<Blog>(`${this.baseUrl}/api/blogs/`,values).pipe(
     )
+  }
+  deleteBlog(values:any){
+    if(!values._id)return;
+    return this.http.delete<any>(`${this.baseUrl}/api/blogs/${values._id}`).subscribe(data=>{
+      console.log('Blog deleted',data);
+    })
   }
 
   getBlogById(id:string){

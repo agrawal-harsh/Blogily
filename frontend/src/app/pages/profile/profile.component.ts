@@ -46,7 +46,15 @@ export class ProfileComponent implements OnInit {
     const id = this.route.snapshot.params['id'];
     this.auth.getProfile(id).subscribe(data=>{
       this.userBlogs = data.user[0].blogs;
-      this.user = data.user[0];
+      this.user = {
+        _id: data.user[0]._id,
+        username: data.user[0].username,
+        email: data.user[0].email,
+        full_name: data.user[0].full_name,
+        bio: data.user[0].bio,
+        profile_picture: data.user[0].profile_picture,
+        is_active: data.user[0].is_active
+      };
     });
   }
   get totalViews(): number {
