@@ -10,7 +10,7 @@
         <li class="nav-item">
           <a class="nav-link active" style="cursor: pointer;" aria-current="page" (click)="goToPage('/')">Home</a>
         </li>
-        @if (user.full_name) {
+        @if (user && user.full_name) {
         <li class="nav-item">
           <a class="nav-link active" style="cursor: pointer;" aria-current="page" (click)="goToProfile()">Profile</a>
         </li>

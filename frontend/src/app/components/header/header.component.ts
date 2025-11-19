@@ -13,7 +13,9 @@ export class HeaderComponent implements OnInit{
   user!:any;
   constructor(private router:Router,private auth:AuthService){}
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user')||'{}');
+    this.auth.user$.subscribe((user) => {
+      this.user = user;
+    });
   }
 
 
@@ -25,7 +27,7 @@ export class HeaderComponent implements OnInit{
     this.router.navigate(['/profile/',this.user._id])
   }
   logout(){
-    localStorage.clear();
+    this.auth.logout();
     this.goToPage('/auth/login');
   }
 }
